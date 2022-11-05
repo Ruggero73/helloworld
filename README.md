@@ -16,3 +16,15 @@
 
 # Cross Origin
 @CrossOrigin(origins = {"http://localhost:4200", "https://ancient-castle-40172-ui.herokuapp.com"})
+
+# Docker
+FROM openjdk:8-jdk-alpine
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
+
+docker build -t helloworld:0.0.1 .
+
+docker run -p 8080:8080 helloworld:0.0.1
+
+docker run -e "SPRING_PROFILES_ACTIVE=prod" -p 8080:8080 -t helloworld:0.0.1
