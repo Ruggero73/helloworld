@@ -23,7 +23,7 @@ ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
 
-docker build -t helloworld:0.0.1 .
+docker build --no-cache -t helloworld:0.0.1 .
 
 docker run -p 8080:8080 helloworld:0.0.1
 
@@ -33,4 +33,6 @@ docker run -e "SPRING_PROFILES_ACTIVE=prod" -p 8080:8080 -t helloworld:0.0.1
 docker tag helloworld:0.0.1 sonsiamese/helloworld:0.0.1
 docker push sonsiamese/helloworld:0.0.1
 
-koyeb app init helloworld-app --docker sonsiamese/helloworld:0.0.1 --ports 8080:http --routes /:8080 --docker-private-registry-secret 
+koyeb app init helloworld-app --docker sonsiamese/helloworld:0.0.1 --ports 8080:http --routes /:8080 --docker-private-registry-secret
+
+koyeb service redeploy helloworld-app/helloworld-app
