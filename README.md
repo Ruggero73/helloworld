@@ -33,6 +33,16 @@ docker run -e "SPRING_PROFILES_ACTIVE=prod" -p 8080:8080 -t helloworld:0.0.1
 docker tag helloworld:0.0.1 sonsiamese/helloworld:0.0.1
 docker push sonsiamese/helloworld:0.0.1
 
+# koyeb deploy from docker
 koyeb app init helloworld-app --docker sonsiamese/helloworld:0.0.1 --ports 8080:http --routes /:8080 --docker-private-registry-secret
-
 koyeb service redeploy helloworld-app/helloworld-app
+
+# Command source
+## source esegue comandi all'interno del file, comodo per eseguire variabili d'ambiente, mettilo anche in .gitignore in modo che dati sensibili non vengano salvati
+## su git
+echo "export SENDGRID_API_KEY='your_api_key'" > sendgrid.env
+echo "sendgrid.env" >> .gitignore
+source ./sendgrid.env
+## test
+printenv | grep SENDGRID
+
